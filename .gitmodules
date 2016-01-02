@@ -1,0 +1,4 @@
+[submodule "kern/memory"]
+	path = kern/memory
+	url = https://github.com/Helix-OS/allocthing.git
+	branch = tweed-os
