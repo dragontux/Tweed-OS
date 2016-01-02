@@ -1,0 +1,24 @@
+ALL_TARGETS += kernel
+ALL_CLEAN   += kernel-clean
+
+kernel-objs-y =
+
+CROSS-CFLAGS = -nostdlib -nostartfiles -nodefaultlibs -fno-builtin -Wall -ffreestanding
+ASFLAGS = -f elf
+LDFLAGS = -T kernel/arch/$(ARCH)/linker.ld
+
+include kernel/arch/$(ARCH)/Makefile.objs
+
+%.o : %.c
+	$(CROSS)gcc $(CROSS-CFLAGS) -c $< -o $@
+
+%.o : %.s
+	nasm $(ASFLAGS) $< -o $@
+
+$(ARCH)-tweed: $(kernel-objs-y)
+	$(CROSS)gcc $(CROSS-CFLAGS) $(LDFLAGS) -o $@ $(kernel-objs-y)
+
+kernel: $(ARCH)-tweed
+
+kernel-clean:
+	-rm $(kernel-objs-y) $(ARCH)-tweed

@@ -1,0 +1,1 @@
+kernel-objs-y += kernel/arch/$(ARCH)/init.o kernel/arch/$(ARCH)/loader.o
